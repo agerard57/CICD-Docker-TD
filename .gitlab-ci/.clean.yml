@@ -1,0 +1,14 @@
+clean_images:
+  image: docker:latest
+  stage: cleaN
+  services:
+    - docker:dind
+  script:
+    - docker image rm $DOCKER_REPO:$CI_COMMIT_SHORT_SHA
+    # YYYY.MM.DD.HHMM
+    - TIMESTAMP=$(date +%Y.%m.%d.%H%M)
+    - docker image rm $DOCKER_REPO:$TIMESTAMP
+  only:
+    - main
+  when: always
+  allow_failure: true

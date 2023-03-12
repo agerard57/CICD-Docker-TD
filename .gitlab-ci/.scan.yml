@@ -1,0 +1,13 @@
+container_scan:
+  image: docker:latest
+  stage: scan
+  variables:
+    TIMESTAMP: $(date +%Y.%m.%d.%H%M)
+  script:
+    - docker run --rm -v $(pwd):/tmp curlimages/curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /tmp
+    - /tmp/syft "$DOCKER_REPO:latest" -o json > syftresult_${TIMESTAMP}.json
+  artifacts:
+    reports:
+      container_scanning: syftresult_${TIMESTAMP}.json
+  only:
+    - main

@@ -1,0 +1,14 @@
+publish_image_docker:
+  image: docker:latest
+  stage: publish
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_ENDPOINT_URL
+  script:
+    - TIMESTAMP=$(date +%Y.%m.%d.%H%M)
+    - docker push $DOCKER_REPO:latest
+    - docker push $DOCKER_REPO:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_REPO:$TIMESTAMP
+  only:
+    - main

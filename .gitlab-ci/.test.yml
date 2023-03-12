@@ -1,0 +1,23 @@
+test:
+  stage: test
+  script:
+    - dotnet test --no-restore
+
+coverage_test:
+  stage: test
+  script:
+    - dotnet add mazegeneratorTester/MazeGenerator.Tests.csproj package coverlet.msbuild
+    - dotnet test mazegeneratorTester/MazeGenerator.Tests.csproj  /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+  coverage: '/Total.*\s+(\d+\.\d+)/'
+
+functional_test:
+  stage: test
+  variables:
+      TIMESTAMP: $(date +%Y.%m.%d.%H%M)
+  script:
+    - dotnet run --project "./ConsoleDebugger/ConsoleDebugger.csproj" "0" > console_debugger_test_${TIMESTAMP}.maze
+  only:
+    - main
+  artifacts:
+    paths:
+      - console_debugger_test_${TIMESTAMP}.maze

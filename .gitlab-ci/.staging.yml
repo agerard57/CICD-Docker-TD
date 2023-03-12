@@ -1,0 +1,24 @@
+staging_deploy:
+  image: docker/compose
+  stage: staging
+  script:
+    - cd deploy/staging
+    - docker-compose up -d
+  environment:
+    name: staging
+    # https://agerard57.com/:3631/api/version
+    url: $STAGING_URL
+  only:
+    - main
+
+staging_stop_deploy:
+  image: docker/compose
+  stage: staging
+  script:
+    - cd deploy/staging
+    - docker-compose down
+  environment:
+    name: staging
+    action: stop
+  when: manual
+

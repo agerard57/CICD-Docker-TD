@@ -1,0 +1,6 @@
+version: "3.0"
+services:
+  app:
+    image: agerard57/dockertd
+    ports:
+      - "3632:80"

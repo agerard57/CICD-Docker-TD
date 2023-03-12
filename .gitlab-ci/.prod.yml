@@ -1,0 +1,26 @@
+prod_deploy:
+  image: docker/compose
+  stage: prod
+  script:
+    - cd deploy/production
+    - docker-compose up -d
+  environment:
+    name: production
+    # https://agerard57.com/:3632/api/version
+    url: $STAGING_URL
+  when: manual
+  only:
+    - main
+
+prod_stop_deploy:
+  image: docker/compose
+  stage: prod
+  script:
+    - cd deploy/production
+    - docker-compose down
+  environment:
+    name: production
+    action: stop
+  only:
+    - main
+  when: manual

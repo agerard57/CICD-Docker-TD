@@ -41,8 +41,8 @@ $ git remote add origin http://localhost/agerard57/cesi-continuousintegration.gi
 
 ### 4
 
-To build the HmgAPI and ConsoleDebugger applications on every push to GitLab, we create a .gitlab-ci.yml file in `./.gitlab.ci/`. This folder contains the configuration files for GitLab's CI/CD. For better visibility, each stage is going to be in a separate file, and the `.gitlab-ci.yml` file will include all of them.
-So we start by creating a `.build.yml` file that contains the build stage.
+To build the HmgAPI and ConsoleDebugger applications on every push to GitLab, we create a .gitlab-ci.yml file in `.gitlab.ci/`. This folder contains the configuration files for GitLab's CI/CD. For better visibility, each stage is going to be in a separate file, and the `.gitlab-ci.yml` file will include all of them.
+So we start by creating a `build.yml` file that contains the build stage.
 
 ### 5
 

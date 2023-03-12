@@ -10,10 +10,10 @@ stages:
   - cleanup
 
 include:
-  - local: .build.yml
-  - local: .test.yml
-  - local: .scan.yml
-  - local: .publish.yml
-  - local: .staging.yml
-  - local: .prod.yml
-  - local: .clean.yml
+  - local: build.yml
+  - local: test.yml
+  - local: scan.yml
+  - local: publish.yml
+  - local: staging.yml
+  - local: prod.yml
+  - local: clean.yml

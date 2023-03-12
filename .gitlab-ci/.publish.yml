@@ -6,9 +6,7 @@ publish_image_docker:
   before_script:
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_ENDPOINT_URL
   script:
-    - TIMESTAMP=$(date +%Y.%m.%d.%H%M)
-    - docker push $DOCKER_REPO:latest
-    - docker push $DOCKER_REPO:$CI_COMMIT_SHORT_SHA
-    - docker push $DOCKER_REPO:$TIMESTAMP
+    - IMAGE_TAG=$(date --date="${CI_COMMIT_TIMESTAMP}" "+%Y.%m.%d.%H%M")-${CI_COMMIT_SHORT_SHA}-latest
+    - docker push $DOCKER_REPO:$IMAGE_TAG
   only:
     - main

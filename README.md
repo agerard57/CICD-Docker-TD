@@ -94,7 +94,9 @@ We add to the `test` stage `functional_test` that executes a script that runs `C
 To tag the image with the short commit id (aka SHA), we use `tag` and `${CI_COMMIT_SHORT_SHA}` (also works with `-t`)
 
 ```yml
-    - docker tag "${DOCKER_REPO}:latest" "${DOCKER_REPO}:${CI_COMMIT_SHORT_SHA}"
+- IMAGE_TAG=$(date --date="${CI_COMMIT_TIMESTAMP}" "+%Y.%m.%d.%H%M")-${CI_COMMIT_SHORT_SHA}-latest
+# Example Output: 2023.03.11.1456-2c81d9a-latest
+- docker build -t "${DOCKER_REPO}:${IMAGE_TAG}" .
 ```
 
 ### 11

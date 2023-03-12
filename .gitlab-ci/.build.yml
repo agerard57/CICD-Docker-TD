@@ -23,14 +23,15 @@ build_consoledebugger:
       - ConsoleDebugger/bin/Release/netcoreapp3.1/publish
       - ConsoleDebugger/bin/Release/net/publish
 
-set_version:
-  stage: build
-  script:
-    - chmod +x ./SetVersion.sh
-    - VERSION="$(./SetVersion.sh)"
-    - echo "Set version to $VERSION"
-  only:
-    - main
+## If we needed to set the version, we use this.
+# set_version:
+#  stage: build
+#  script:
+#    - chmod +x ./SetVersion.sh
+#    - VERSION="$(./SetVersion.sh)"
+#    - echo "Set version to $VERSION"
+#  only:
+#    - main
 
 build_image:
   image: docker:latest
@@ -39,18 +40,16 @@ build_image:
     - docker:dind
   script:
     - echo "Building Docker image..."
-    - docker build -t "${DOCKER_REPO}:latest" .
-    - docker tag "${DOCKER_REPO}:latest" "${DOCKER_REPO}:${CI_COMMIT_SHORT_SHA}"
-    - docker tag "${DOCKER_REPO}:latest" "${DOCKER_REPO}:${VERSION}"
+    - IMAGE_TAG=$(date --date="${CI_COMMIT_TIMESTAMP}" "+%Y.%m.%d.%H%M")-${CI_COMMIT_SHORT_SHA}-latest
+    # Example Output: 2023.03.11.1456-2c81d9a-latest
+    - docker build -t "${DOCKER_REPO}:${IMAGE_TAG}" .
     - echo "Pushing Docker image..."
-    - docker push "${DOCKER_REPO}:latest"
-    - docker push "${DOCKER_REPO}:${CI_COMMIT_SHORT_SHA}"
-    - docker push "${DOCKER_REPO}:${VERSION}"
+    - docker push "${DOCKER_REPO}:${IMAGE_TAG}"
   only:
     - main
   except:
     - schedules
-  // Error handling to retry failed stages up to 3 times, with a 10-second delay between retries, and allow the stage to be interrupted if necessary.
+  # Error handling to retry failed stages up to 3 times, with a 10-second delay between retries, and allow the stage to be interrupted if necessary.
   retry:
     max: 3
     when: always

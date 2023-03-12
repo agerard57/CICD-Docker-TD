@@ -4,10 +4,8 @@ clean_images:
   services:
     - docker:dind
   script:
-    - docker image rm $DOCKER_REPO:$CI_COMMIT_SHORT_SHA
-    # YYYY.MM.DD.HHMM
-    - TIMESTAMP=$(date +%Y.%m.%d.%H%M)
-    - docker image rm $DOCKER_REPO:$TIMESTAMP
+    - IMAGE_TAG=$(date --date="${CI_COMMIT_TIMESTAMP}" "+%Y.%m.%d.%H%M")-${CI_COMMIT_SHORT_SHA}-latest
+    - docker image rm "${DOCKER_REPO}:${IMAGE_TAG}"
   only:
     - main
   when: always

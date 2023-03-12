@@ -115,7 +115,14 @@ To deploy in a staging environment, we start by creating a new `docker-compose.y
 
 ![image](https://i.ibb.co/Sr6Jqxp/image.png)
 
-Now, create two new jobs that start and stop staging.
+Now, we add two new jobs that start and stop staging.
+
+In Gitlab, we can now see that the staging environment is up.
+
+![image](https://user-images.githubusercontent.com/56207146/224524352-9dd3c6a2-2831-487c-8aca-b0fb82b74815.png)
+
+![image](https://user-images.githubusercontent.com/56207146/224524340-5e0e755c-7eee-4d1e-ba4e-08076c7547ef.png)
+
 
 ### 16
 
